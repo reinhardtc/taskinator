@@ -51,6 +51,10 @@ var createTaskEl = function (taskDataObj) {
     "</span>";
   listItemEl.appendChild(taskInfoEl);
 
+  var taskActionsEl = createTaskActions(taskIdCounter);
+
+  listItemEl.appendChild(taskActionsEl);
+
   //add entire list item to list
   tasksToDoEl.appendChild(listItemEl);
 
@@ -76,6 +80,23 @@ var createTaskActions = function (taskId) {
   deleteButtonEl.setAttribute("data-task-id", taskId);
 
   actionContainerEl.appendChild(deleteButtonEl);
+
+  var statusSelectEl = document.createElement("select");
+  statusSelectEl.className = "select-status";
+  statusSelectEl.setAttribute("name", "status-change");
+  statusSelectEl.setAttribute("data-task-id", taskId);
+
+  actionContainerEl.appendChild(statusSelectEl);
+
+  var statusChoices = ["To Do", "In Progress", "Completed"];
+
+  for (let i = 0; i < statusChoices.length; i++) {
+    var statusOptionEl = document.createElement("option");
+    statusOptionEl.textContent = statusChoices[i];
+    statusOptionEl.setAttribute("value", statusChoices[i]);
+
+    statusSelectEl.appendChild(statusOptionEl);
+  }
 
   return actionContainerEl;
 };
