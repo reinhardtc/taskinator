@@ -83,6 +83,7 @@ var createTaskEl = function (taskDataObj) {
   tasks.push(taskDataObj);
 
   taskIdCounter++;
+  saveTasks();
 
   console.log(tasks);
 };
@@ -183,6 +184,7 @@ var deleteTask = function (taskId) {
     }
   }
   tasks = updatedTaskArr;
+  saveTasks();
 };
 
 // update form and task after task is edited
@@ -202,6 +204,8 @@ var completeEditTask = function (taskName, taskType, taskId) {
       tasks[i].type = taskType;
     }
   }
+
+  saveTasks();
 
   alert("Task updated!");
 
@@ -236,10 +240,16 @@ var taskStatusChangeHandler = function (event) {
     }
   }
   console.log(tasks);
+
+  saveTasks();
+};
+
+var saveTasks = function () {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
 formEl.addEventListener("submit", taskFormHandler);
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 
-// left off at beginneing of 4.3.10
+// let off in 4.4.5 "we weren't expecting this"
