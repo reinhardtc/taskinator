@@ -84,8 +84,6 @@ var createTaskEl = function (taskDataObj) {
 
   taskIdCounter++;
   saveTasks();
-
-  console.log(tasks);
 };
 
 // create task actions function
@@ -239,7 +237,6 @@ var taskStatusChangeHandler = function (event) {
       tasks[i].status = statusValue;
     }
   }
-  console.log(tasks);
 
   saveTasks();
 };
@@ -248,8 +245,28 @@ var saveTasks = function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+/* 
+- get task from local storage
+- convert tasks from string back to array
+- iterate through task array
+*/
+var loadTasks = function () {
+  var savedTasks = localStorage.getItem("tasks");
+
+  if (!savedTasks) {
+    tasks = [];
+    return false;
+  }
+
+  savedTasks = JSON.parse(savedTasks);
+
+  for (var i = 0; i < savedTasks.length; i++) {
+    createTaskEl(savedTasks[i]);
+  }
+};
+
+loadTasks();
+
 formEl.addEventListener("submit", taskFormHandler);
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
-
-// let off in 4.4.5 "we weren't expecting this"
